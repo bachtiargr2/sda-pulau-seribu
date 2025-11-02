@@ -54,7 +54,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::put('/kelola-data/air/{dataAir}', [DataAirController::class, 'update'])->name('kelola-data.air.update');
     Route::delete('/kelola-data/air/{dataAir?}', [DataAirController::class, 'destroy'])->name('kelola-data.air.delete');
 
-    Route::get('/download/{path}', [DokumenController::class, 'download'])->where('path', '.*');
+    Route::get('/download/{path}/{nama}', [DokumenController::class, 'download'])->where('path', '.*');
 });
 
 require __DIR__.'/settings.php';

@@ -22,7 +22,7 @@ export function DownloadDialog({ nama, path }: any) {
 
     const handleDownload = () => {
         startTransition(() => {
-            window.location.href = `/storage/${path}`
+            window.location.href = `/download/${path}/${nama}`;
             setOpen(false)
         })
     }

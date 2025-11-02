@@ -7,12 +7,11 @@ use Illuminate\Support\Facades\Storage;
 
 class DokumenController extends Controller
 {
-    public function download($path)
+    public function download($path, $name)
     {
-        $filePath = 'public/' . $path;
-        if (!Storage::exists($filePath)) {
+        if (!Storage::exists($path)) {
             abort(404, 'File not found');
         }
-        return Storage::download($filePath);
+        return Storage::download($path, $name);
     }
 }

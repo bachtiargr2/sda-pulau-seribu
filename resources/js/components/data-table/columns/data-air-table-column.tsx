@@ -7,6 +7,7 @@ import { UpdateDataAirSheet } from '@/components/toolbar/update-data-air-sheet'
 import { DeleteDialog } from '@/components/toolbar/delete-data-air-dialog'
 import { useState } from 'react'
 import StatusColumn from '@/components/status-column'
+import { DownloadDialog } from '@/components/toolbar/download-dialog'
 
 export const columns: ColumnDef<DataAnggaran>[] = [
   {
@@ -31,7 +32,11 @@ export const columns: ColumnDef<DataAnggaran>[] = [
   { accessorFn: row => row.pulau?.nama ?? '-', header: 'Pulau' },
   { accessorFn: row => row.jenis_data?.nama ?? '-', header: 'Jenis Data' },
   { accessorKey: 'tahun', header: 'Tahun' },
-  { accessorKey: 'dokumen_nama', header: 'Nama Dokumen' },
+  {
+    accessorKey: 'dokumen_nama',
+    header: 'Nama Dokumen',
+    cell: ({ row }) =>  <DownloadDialog nama={row.original?.dokumen_nama} path={row.original?.dokumen_path} />
+  },
 {
     accessorKey: "status",
     header: "Status",
