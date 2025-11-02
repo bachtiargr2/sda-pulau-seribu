@@ -12,8 +12,8 @@ interface UpdatePulauSheetProps extends ComponentPropsWithRef<typeof Sheet> {
   data: {
     id: number
     nama: string
-    kecamatan: string
-    kelurahan: string
+    latitude: string
+    longitude: string
   }
   onClose?: () => void
 }

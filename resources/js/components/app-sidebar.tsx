@@ -15,8 +15,12 @@ import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/react';
 import { BookOpen, Folder, LayoutGrid, ClipboardList, Database, User, BriefcaseBusiness } from 'lucide-react';
 import AppLogo from './app-logo';
-import kelolaData from '@/routes/kelola-data';
+import pantai from '@/routes/kelola-data/pantai';
+import limbah from '@/routes/kelola-data/limbah';
+import air from '@/routes/kelola-data/air';
 import pulau from '@/routes/pulau';
+import jenisData from '@/routes/jenis-data';
+import unitKerja from '@/routes/unit-kerja';
 
 const mainNavItems: NavItem[] = [
     {
@@ -31,15 +35,15 @@ const mainNavItems: NavItem[] = [
         subItems: [
             {
                 title: 'Pantai',
-                href: kelolaData.pantai(),
+                href: pantai.index(),
+            },
+            {
+                title: 'Air Bersih',
+                href: air.index(),
             },
             {
                 title: 'Limbah',
-                href: '#',
-            },
-            {
-                title: 'Air',
-                href: '#',
+                href: limbah.index(),
             },
         ]
     },
@@ -54,14 +58,13 @@ const mainNavItems: NavItem[] = [
             },
             {
                 title: 'Jenis Data',
-                href: '#',
+                href: jenisData.index(),
+            },
+            {
+                title: 'Unit Kerja',
+                href: unitKerja.index(),
             },
         ]
-    },
-    {
-        title: 'Unit Kerja',
-        href: '#',
-        icon: BriefcaseBusiness,
     },
     {
         title: 'User',

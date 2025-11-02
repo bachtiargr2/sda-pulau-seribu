@@ -2,42 +2,26 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Button } from "@/components/ui/button"
 import { useForm } from "@inertiajs/react"
-import { FormEventHandler, useMemo, useTransition } from "react"
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select"
+import { FormEventHandler, useTransition } from "react"
 import { DialogClose, DialogFooter } from "@/components/ui/dialog"
 import { LoaderIcon } from "lucide-react"
 import { SheetClose, SheetFooter } from "@/components/ui/sheet"
 import { cn } from "@/lib/utils"
 import InputError from "../input-error"
-import { toast } from "sonner"
-import { updateData } from "@/utils/update"
 import { createData } from "@/utils/create"
+import { updateData } from "@/utils/update"
 
 type PulauFormProps = {
   initialData?: {
     id?: number
     nama?: string
-    kecamatan?: string
-    kelurahan?: string
+    longitude?: number | string
+    latitude?: number | string
   }
   onSuccess?: () => void
   submitRoute: string
   method?: "post" | "put"
 }
-
-const kecamatanOptions = ["Kepulauan Seribu Utara", "Kepulauan Seribu Selatan"]
-
-const kelurahanOptions = {
-  "Kepulauan Seribu Utara": ["Pulau Harapan", "Pulau Kelapa", "Pulau Panggang"],
-  "Kepulauan Seribu Selatan": ["Pulau Pari", "Pulau Tidung", "Pulau Untung Jawa"],
-} as const
 
 export default function PulauForm({
   initialData,
@@ -49,24 +33,20 @@ export default function PulauForm({
 
   const { data, setData, post, processing, errors, reset, setError } = useForm({
     nama: initialData?.nama ?? "",
-    kecamatan: initialData?.kecamatan ?? "",
-    kelurahan: initialData?.kelurahan ?? "",
+    longitude: initialData?.longitude?.toString() ?? "",
+    latitude: initialData?.latitude?.toString() ?? "",
   })
 
-  const filteredKelurahan = useMemo(() => {
-    return kelurahanOptions[data.kecamatan as keyof typeof kelurahanOptions] || []
-  }, [data.kecamatan])
-
   const handleChange = (field: keyof typeof data, value: string) => {
-    if (field === "kecamatan") {
-      setData({
-        ...data,
-        kecamatan: value,
-        kelurahan: "",
-      })
+    // Pastikan longitude & latitude selalu numeric (float) jika ada nilai
+    if (field === "longitude" || field === "latitude") {
+      const parsed = value === "" ? "" : parseFloat(value)
+      setData(field, parsed)
     } else {
       setData(field, value)
     }
+
+    // Hapus pesan error jika user mengetik ulang
     if (errors[field]) setError(field, "")
   }
 
@@ -85,13 +65,13 @@ export default function PulauForm({
         })
       } else {
         createData({
-            url: "/master-data/pulau",
-            data,
-            label: "Pulau",
-            onSuccess: () => {
-              reset()
-              onSuccess?.()
-            },
+          url: "/master-data/pulau",
+          data,
+          label: "Pulau",
+          onSuccess: () => {
+            reset()
+            onSuccess?.()
+          },
         })
       }
     })
@@ -100,6 +80,7 @@ export default function PulauForm({
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-4">
       <div className={cn("flex flex-col gap-4", method === "put" && "px-4")}>
+        {/* Nama Pulau */}
         <div>
           <Label className={errors.nama && "text-red-500"}>
             Nama Pulau<span className="text-red-500">*</span>
@@ -107,53 +88,42 @@ export default function PulauForm({
           <Input
             value={data.nama}
             onChange={(e) => handleChange("nama", e.target.value)}
-            placeholder="Input nama pulau"
+            placeholder="Masukkan nama pulau"
             className={errors.nama && "border-red-500 placeholder:text-red-500"}
           />
           {errors.nama && <InputError message={errors.nama} />}
         </div>
 
+        {/* Longitude */}
         <div>
-          <Label>Kecamatan</Label>
-          <Select onValueChange={(value) => handleChange("kecamatan", value)} value={data.kecamatan}>
-            <SelectTrigger>
-              <SelectValue placeholder="Select kecamatan" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectGroup>
-                {kecamatanOptions.map((kecamatan) => (
-                  <SelectItem key={kecamatan} value={kecamatan}>
-                    {kecamatan}
-                  </SelectItem>
-                ))}
-              </SelectGroup>
-            </SelectContent>
-          </Select>
+          <Label className={errors.longitude && "text-red-500"}>Longitude</Label>
+          <Input
+            type="number"
+            step="any"
+            value={data.longitude}
+            onChange={(e) => handleChange("longitude", e.target.value)}
+            placeholder="Contoh: 106.8451"
+            className={errors.longitude && "border-red-500 placeholder:text-red-500"}
+          />
+          {errors.longitude && <InputError message={errors.longitude} />}
         </div>
 
+        {/* Latitude */}
         <div>
-          <Label>Kelurahan</Label>
-          <Select
-            disabled={!data.kecamatan}
-            onValueChange={(value) => handleChange("kelurahan", value)}
-            value={data.kelurahan}
-          >
-            <SelectTrigger>
-              <SelectValue placeholder="Select kelurahan" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectGroup>
-                {filteredKelurahan.map((kelurahan) => (
-                  <SelectItem key={kelurahan} value={kelurahan}>
-                    {kelurahan}
-                  </SelectItem>
-                ))}
-              </SelectGroup>
-            </SelectContent>
-          </Select>
+          <Label className={errors.latitude && "text-red-500"}>Latitude</Label>
+          <Input
+            type="number"
+            step="any"
+            value={data.latitude}
+            onChange={(e) => handleChange("latitude", e.target.value)}
+            placeholder="Contoh: -6.2088"
+            className={errors.latitude && "border-red-500 placeholder:text-red-500"}
+          />
+          {errors.latitude && <InputError message={errors.latitude} />}
         </div>
       </div>
 
+      {/* Footer Buttons */}
       {method === "post" ? (
         <DialogFooter className="gap-2 pt-2 sm:space-x-0">
           <DialogClose asChild>

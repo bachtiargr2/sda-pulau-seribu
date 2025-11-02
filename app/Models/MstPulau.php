@@ -10,5 +10,15 @@ class MstPulau extends Model
     use HasFactory;
 
     protected $table = 'mst_pulau';
-    protected $fillable = ['nama', 'kelurahan', 'kecamatan'];
+
+    protected $fillable = [
+        'nama',
+        'longitude',
+        'latitude',
+    ];
+
+    public function dataAnggaran()
+    {
+        return $this->hasMany(DataAnggaran::class, 'id_pulau');
+    }
 }

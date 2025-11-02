@@ -59,7 +59,7 @@ export interface Pantai {
 }
 
 export interface Status {
-    status: number;
+    status: number | any;
 }
 
 export interface Pulau {
@@ -68,3 +68,44 @@ export interface Pulau {
     kelurahan: string;
     kecamatan: string;
 }
+
+export type JenisData = {
+  id: number
+  nama: string
+  deskripsi?: string
+  created_at?: string
+  updated_at?: string
+}
+
+export interface UnitKerja {
+    id: number;
+    nama: string;
+}
+
+export type DataAnggaran = {
+  id: number
+  id_pulau: number
+  pulau: {
+    id: number
+    nama: string
+  }
+  id_jenis_data: number
+  jenisData: {
+    id: number
+    nama: string
+  }
+  id_kategori: number
+  tahun: number
+  dokumen_path?: string
+  dokumen_nama?: string
+  tanggal_upload?: string
+  status?: number
+  statusData?: {
+    id: number
+    nama: string
+  }
+  created_at?: string
+  updated_at?: string
+  tanggal_upload?: string
+}
+
