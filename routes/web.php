@@ -6,6 +6,7 @@ use App\Http\Controllers\JenisDataController;
 use App\Http\Controllers\DataPantaiController;
 use App\Http\Controllers\DataLimbahController;
 use App\Http\Controllers\DataAirController;
+use App\Http\Controllers\DokumenController;
 use App\Http\Controllers\UnitKerjaController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -52,6 +53,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/kelola-data/air', [DataAirController::class, 'store'])->name('kelola-data.air.store');
     Route::put('/kelola-data/air/{dataAir}', [DataAirController::class, 'update'])->name('kelola-data.air.update');
     Route::delete('/kelola-data/air/{dataAir?}', [DataAirController::class, 'destroy'])->name('kelola-data.air.delete');
+
+    Route::get('/download/{path}', [DokumenController::class, 'download'])->where('path', '.*');
 });
 
 require __DIR__.'/settings.php';

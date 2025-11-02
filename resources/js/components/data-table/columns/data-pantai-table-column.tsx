@@ -7,6 +7,8 @@ import { UpdateDataPantaiSheet } from '@/components/toolbar/update-data-pantai-s
 import { DeleteDialog } from '@/components/toolbar/delete-data-pantai-dialog'
 import { useState } from 'react'
 import StatusColumn from '@/components/status-column'
+import { DownloadDialog } from '@/components/toolbar/download-dialog'
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 
 export const columns: ColumnDef<DataAnggaran>[] = [
   {
@@ -31,7 +33,11 @@ export const columns: ColumnDef<DataAnggaran>[] = [
   { accessorFn: row => row.pulau?.nama ?? '-', header: 'Pulau' },
   { accessorFn: row => row.jenis_data?.nama ?? '-', header: 'Jenis Data' },
   { accessorKey: 'tahun', header: 'Tahun' },
-  { accessorKey: 'dokumen_nama', header: 'Nama Dokumen' },
+  {
+    accessorKey: 'dokumen_nama',
+    header: 'Dokumen',
+    cell: ({ row }) =>  <DownloadDialog nama={row.original?.dokumen_nama} path={row.original?.dokumen_path} />
+  },
   {
     accessorKey: "status",
     header: "Status",
@@ -72,9 +78,24 @@ export const columns: ColumnDef<DataAnggaran>[] = [
             onSuccess={() => row.toggleSelected(false)}
             showTrigger={false}
           />
-          <Button variant="ghost" onClick={() => { setShowUpdateTaskSheet(true) }}>
-            <MoreHorizontal />
-          </Button>
+            <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                    <Button variant="ghost" className="h-8 w-8 p-0">
+                        <span className="sr-only">Open Menu</span>
+                        <MoreHorizontal className="h-4 w-4" />
+                    </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                    <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem onClick={() => { setShowUpdateTaskSheet(true) }}>
+                        Edit
+                    </DropdownMenuItem>
+                    <DropdownMenuItem>
+                        Delete
+                    </DropdownMenuItem>
+                </DropdownMenuContent>
+            </DropdownMenu>
         </>
       )
     },

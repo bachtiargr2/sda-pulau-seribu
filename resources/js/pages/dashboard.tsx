@@ -42,7 +42,12 @@ export default function Dashboard() {
                             onChange={(e) => {
                                 const value = e.target.value;
                                 setPulauFilter(value);
-                                router.get(`/dashboard`, { pulau_id: value }, { preserveState: true });
+                                router.get(`/dashboard`, { pulau_id: value }, {
+                                    preserveState: true,
+                                    preserveScroll: true,
+                                    replace: true,
+                                    only: ['document_chart', 'data_pantai', 'data_air_bersih', 'data_limbah'],
+                                });
                             }}
                         >
                             <option value="">Pilih Pulau</option>
