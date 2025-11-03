@@ -10,6 +10,8 @@ import InputError from "../input-error"
 import { createData } from "@/utils/create"
 import { YearPicker } from "../year-picker"
 import { updateDataWithFile } from "@/utils/update-with-file"
+import { cn } from "@/lib/utils"
+import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "../ui/select"
 
 type DataPantaiFormProps = {
   pulauOptions: { id: number; nama: string }[]
@@ -82,34 +84,44 @@ export default function DataPantaiForm({
 
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-      <div className="flex flex-col gap-4">
+        <div className={cn("flex flex-col gap-4", method === "put" && "px-4")}>
         <div>
           <Label>Nama Pulau</Label>
-          <select
-            className="w-full border rounded-md p-2"
-            value={data.id_pulau}
-            onChange={(e) => handleChange("id_pulau", e.target.value)}
+          <Select
+            value={data.id_pulau?.toString() ?? ""}
+            onValueChange={(value) => handleChange("id_pulau", Number(value))}
           >
-            <option value="">Pilih Pulau</option>
-            {pulauOptions.map((p) => (
-              <option key={p.id} value={p.id}>{p.nama}</option>
-            ))}
-          </select>
+            <SelectTrigger>
+              <SelectValue placeholder="-- Pilih pulau --" />
+            </SelectTrigger>
+            <SelectContent>
+                <SelectGroup>
+                    {pulauOptions.map((p) => (
+                    <SelectItem key={p.id} value={p.id.toString()}>{p.nama}</SelectItem>
+                    ))}
+                </SelectGroup>
+            </SelectContent>
+          </Select>
           {errors.id_pulau && <InputError message={errors.id_pulau} />}
         </div>
 
         <div>
           <Label>Jenis Data</Label>
-          <select
-            className="w-full border rounded-md p-2"
-            value={data.id_jenis_data}
-            onChange={(e) => handleChange("id_jenis_data", e.target.value)}
+          <Select
+            value={data.id_jenis_data?.toString() ?? ""}
+            onValueChange={(value) => handleChange("id_jenis_data", Number(value))}
           >
-            <option value="">Pilih Jenis Data</option>
-            {jenisDataOptions.map((j) => (
-              <option key={j.id} value={j.id}>{j.nama}</option>
-            ))}
-          </select>
+            <SelectTrigger>
+              <SelectValue placeholder="-- Pilih jenis data --" />
+            </SelectTrigger>
+            <SelectContent>
+                <SelectGroup>
+                    {jenisDataOptions.map((j) => (
+                    <SelectItem key={j.id} value={j.id.toString()}>{j.nama}</SelectItem>
+                    ))}
+                </SelectGroup>
+            </SelectContent>
+          </Select>
           {errors.id_jenis_data && <InputError message={errors.id_jenis_data} />}
         </div>
 
@@ -127,7 +139,7 @@ export default function DataPantaiForm({
 
         <div>
           <Label>Upload Dokumen</Label>
-          <input
+          <Input
             type="file"
             onChange={(e) => handleChange('dokumen', e.target.files?.[0])}
           />
@@ -151,16 +163,21 @@ export default function DataPantaiForm({
 
         <div>
           <Label>Status</Label>
-          <select
-            className="w-full border rounded-md p-2"
-            value={data.status ?? ""}
-            onChange={(e) => handleChange('status', e.target.value)}
+          <Select
+            value={data.status?.toString() ?? ""}
+            onValueChange={(value) => handleChange("status", Number(value))}
           >
-            <option value="">Pilih Status</option>
-            {statusOptions.map((s: { id: number; nama: string }) => (
-              <option key={s.id} value={s.id}>{s.nama}</option>
-            ))}
-          </select>
+            <SelectTrigger>
+              <SelectValue placeholder="-- Pilih status --" />
+            </SelectTrigger>
+            <SelectContent>
+                <SelectGroup>
+                    {statusOptions.map((s) => (
+                    <SelectItem key={s.id} value={s.id.toString()}>{s.nama}</SelectItem>
+                    ))}
+                </SelectGroup>
+            </SelectContent>
+          </Select>
           {errors.status && <InputError message={errors.status} />}
         </div>
 
