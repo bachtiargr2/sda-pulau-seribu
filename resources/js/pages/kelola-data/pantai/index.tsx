@@ -5,6 +5,7 @@ import dataPantaiRoutes from '@/routes/kelola-data/pantai'
 import { type BreadcrumbItem, type DataAnggaran } from '@/types'
 import { Head, usePage } from '@inertiajs/react'
 import { TableToolbarActionsDataPantai } from '@/components/toolbar/table-toolbar-actions-data-pantai'
+import { useMemo } from 'react'
 
 const breadcrumbs: BreadcrumbItem[] = [
   {
@@ -20,6 +21,7 @@ export default function DataPantaiPage() {
     jenisDataOptions?: { id: number; nama: string }[];
     statusOptions?: { id: number; nama: string }[];
   }>().props;
+  const tableColumns = useMemo(() => columns(pulauOptions, jenisDataOptions, statusOptions), [pulauOptions, jenisDataOptions, statusOptions])
 
   const safeData: DataAnggaran[] = Array.isArray(data_pantai) ? data_pantai : [];
   const safePulauOptions = Array.isArray(pulauOptions) ? pulauOptions : [];
@@ -34,7 +36,7 @@ export default function DataPantaiPage() {
         <DataTable
           title="Data Pantai"
           desc="Data anggaran khusus kategori pantai"
-          columns={columns}
+          columns={tableColumns}
           data={safeData}
           toolbar={
             <TableToolbarActionsDataPantai

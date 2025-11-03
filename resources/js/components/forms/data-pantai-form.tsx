@@ -8,8 +8,8 @@ import { LoaderIcon } from "lucide-react"
 import { SheetClose, SheetFooter } from "@/components/ui/sheet"
 import InputError from "../input-error"
 import { createData } from "@/utils/create"
-import { updateData } from "@/utils/update"
 import { YearPicker } from "../year-picker"
+import { updateDataWithFile } from "@/utils/update-with-file"
 
 type DataPantaiFormProps = {
   pulauOptions: { id: number; nama: string }[]
@@ -37,8 +37,10 @@ export default function DataPantaiForm({
       tahun: initialData?.tahun ?? "",
       dokumen_nama: initialData?.dokumen_nama ?? "",
       dokumen_path: initialData?.dokumen_path ?? "",
+      dokumen_url: initialData?.dokumen_url ?? "",
       dokumen: undefined,   // ← file object
       status: initialData?.status ?? "",
+      _method: "PUT",
   })
 
   const handleChange = (field: keyof typeof data, value: any) => {
@@ -55,12 +57,14 @@ export default function DataPantaiForm({
       })
 
       if (method === "put" && initialData?.id) {
-        updateData({
+        updateDataWithFile({
           url: submitRoute,
           id: initialData.id,
           data: formData,
           label: "Data Pantai",
-          onSuccess,
+          onSuccess: () => {
+            onSuccess?.()
+          },
         })
       } else {
         createData({
@@ -111,12 +115,6 @@ export default function DataPantaiForm({
 
         <div className="flex flex-col gap-2">
           <Label>Tahun</Label>
-          {/* <Input
-            type="number"
-            value={data.tahun}
-            onChange={(e) => handleChange("tahun", e.target.value)}
-            placeholder="Masukkan tahun"
-          /> */}
             <YearPicker
                 value={data.tahun}
                 onChange={(year) => handleChange("tahun", year)}
@@ -134,6 +132,21 @@ export default function DataPantaiForm({
             onChange={(e) => handleChange('dokumen', e.target.files?.[0])}
           />
           {errors.dokumen && <InputError message={errors.dokumen} />}
+          {data.dokumen_url ? (
+            <div className="text-sm text-gray-600">
+                Current file:{" "}
+                <a
+                href={data.dokumen_url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-blue-600 underline"
+                >
+                {data.dokumen_nama.split('/').pop()}
+                </a>
+            </div>
+            ) : (
+            <p className="text-sm text-gray-500">No file uploaded yet</p>
+            )}
         </div>
 
         <div>

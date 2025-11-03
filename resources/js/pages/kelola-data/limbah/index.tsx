@@ -5,6 +5,7 @@ import dataLimbahRoutes from '@/routes/kelola-data/limbah'
 import { type BreadcrumbItem, type DataAnggaran } from '@/types'
 import { Head, usePage } from '@inertiajs/react'
 import { TableToolbarActionsDataLimbah } from '@/components/toolbar/table-toolbar-actions-data-limbah'
+import { useMemo } from 'react'
 
 const breadcrumbs: BreadcrumbItem[] = [
   {
@@ -26,6 +27,8 @@ export default function DataLimbahPage() {
   const safeJenisDataOptions = Array.isArray(jenisDataOptions) ? jenisDataOptions : [];
   const safeStatusOptions = Array.isArray(statusOptions) ? statusOptions : [];
 
+      const tableColumns = useMemo(() => columns(pulauOptions, jenisDataOptions, statusOptions), [pulauOptions, jenisDataOptions, statusOptions])
+
   return (
     <AppLayout breadcrumbs={breadcrumbs}>
       <Head title="Data Limbah" />
@@ -34,7 +37,7 @@ export default function DataLimbahPage() {
         <DataTable
           title="Data Limbah"
           desc="Data anggaran khusus kategori Limbah"
-          columns={columns}
+          columns={tableColumns}
           data={safeData}
           toolbar={
             <TableToolbarActionsDataLimbah

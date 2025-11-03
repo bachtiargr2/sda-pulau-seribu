@@ -5,46 +5,49 @@ import dataAirRoutes from '@/routes/kelola-data/air'
 import { type BreadcrumbItem, type DataAnggaran } from '@/types'
 import { Head, usePage } from '@inertiajs/react'
 import { TableToolbarActionsDataAir } from '@/components/toolbar/table-toolbar-actions-data-air'
+import { useMemo } from 'react'
 
 const breadcrumbs: BreadcrumbItem[] = [
-  {
-    title: 'Data Air',
-    href: dataAirRoutes.index().url,
-  },
+    {
+        title: 'Data Air',
+        href: dataAirRoutes.index().url,
+    },
 ]
 
 export default function DataAirPage() {
-  const { data_air, pulauOptions, jenisDataOptions, statusOptions } = usePage<{
-    data_air?: DataAnggaran[];
-    pulauOptions?: { id: number; nama: string }[];
-    jenisDataOptions?: { id: number; nama: string }[];
-    statusOptions?: { id: number; nama: string }[];
-  }>().props;
+    const { data_air, pulauOptions, jenisDataOptions, statusOptions } = usePage<{
+        data_air?: DataAnggaran[];
+        pulauOptions?: { id: number; nama: string }[];
+        jenisDataOptions?: { id: number; nama: string }[];
+        statusOptions?: { id: number; nama: string }[];
+    }>().props;
 
-  const safeData: DataAnggaran[] = Array.isArray(data_air) ? data_air : [];
-  const safePulauOptions = Array.isArray(pulauOptions) ? pulauOptions : [];
-  const safeJenisDataOptions = Array.isArray(jenisDataOptions) ? jenisDataOptions : [];
-  const safeStatusOptions = Array.isArray(statusOptions) ? statusOptions : [];
+    const safeData: DataAnggaran[] = Array.isArray(data_air) ? data_air : [];
+    const safePulauOptions = Array.isArray(pulauOptions) ? pulauOptions : [];
+    const safeJenisDataOptions = Array.isArray(jenisDataOptions) ? jenisDataOptions : [];
+    const safeStatusOptions = Array.isArray(statusOptions) ? statusOptions : [];
 
-  return (
-    <AppLayout breadcrumbs={breadcrumbs}>
-      <Head title="Data Air" />
+    const tableColumns = useMemo(() => columns(pulauOptions, jenisDataOptions, statusOptions), [pulauOptions, jenisDataOptions, statusOptions])
 
-      <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
-        <DataTable
-          title="Data Air"
-          desc="Data anggaran khusus kategori Air"
-          columns={columns}
-          data={safeData}
-          toolbar={
-            <TableToolbarActionsDataAir
-              pulauOptions={safePulauOptions}
-              jenisDataOptions={safeJenisDataOptions}
-              statusOptions={safeStatusOptions}
-            />
-          }
-        />
-      </div>
-    </AppLayout>
-  );
+    return (
+        <AppLayout breadcrumbs={breadcrumbs}>
+            <Head title="Data Air" />
+
+            <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
+                <DataTable
+                    title="Data Air"
+                    desc="Data anggaran khusus kategori Air"
+                    columns={tableColumns}
+                    data={safeData}
+                    toolbar={
+                        <TableToolbarActionsDataAir
+                            pulauOptions={safePulauOptions}
+                            jenisDataOptions={safeJenisDataOptions}
+                            statusOptions={safeStatusOptions}
+                        />
+                    }
+                />
+            </div>
+        </AppLayout>
+    );
 }

@@ -8,80 +8,102 @@ import { DeleteDialog } from '@/components/toolbar/delete-data-air-dialog'
 import { useState } from 'react'
 import StatusColumn from '@/components/status-column'
 import { DownloadDialog } from '@/components/toolbar/download-dialog'
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 
-export const columns: ColumnDef<DataAnggaran>[] = [
-  {
-    id: 'select',
-    header: ({ table }) => (
-      <Checkbox
-        checked={table.getIsAllPageRowsSelected() || (table.getIsSomePageRowsSelected() && 'indeterminate')}
-        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-        aria-label="Select all"
-      />
-    ),
-    cell: ({ row }) => (
-      <Checkbox
-        checked={row.getIsSelected()}
-        onCheckedChange={(value) => row.toggleSelected(!!value)}
-        aria-label="Select row"
-      />
-    ),
-    enableSorting: false,
-    enableHiding: false,
-  },
-  { accessorFn: row => row.pulau?.nama ?? '-', header: 'Pulau' },
-  { accessorFn: row => row.jenis_data?.nama ?? '-', header: 'Jenis Data' },
-  { accessorKey: 'tahun', header: 'Tahun' },
-  {
-    accessorKey: 'dokumen_nama',
-    header: 'Nama Dokumen',
-    cell: ({ row }) =>  <DownloadDialog nama={row.original?.dokumen_nama} path={row.original?.dokumen_path} />
-  },
-{
-    accessorKey: "status",
-    header: "Status",
-    cell: ({ row }) => <StatusColumn status={row.original?.status} />
-    },
-  {
-    accessorKey: 'tanggal_upload',
-    header: 'Tanggal Upload',
-    cell: ({ row }) => {
-      if (!row.original.tanggal_upload) return '-'
-      const date = new Date(row.original.tanggal_upload)
-      return date.toLocaleDateString('id-ID', {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
-      })
-    },
-  },
-  {
-    id: 'actions',
-    cell: ({ row }) => {
-      const [showUpdate, setShowUpdate] = useState(false)
-      const [showDelete, setShowDelete] = useState(false)
+export const columns = (pulauOptions: any, jenisDataOptions: any, statusOptions: any) => {
+    const cols: ColumnDef<DataAnggaran>[] = [
+        {
+            id: 'select',
+            header: ({ table }) => (
+                <Checkbox
+                    checked={table.getIsAllPageRowsSelected() || (table.getIsSomePageRowsSelected() && 'indeterminate')}
+                    onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+                    aria-label="Select all"
+                />
+            ),
+            cell: ({ row }) => (
+                <Checkbox
+                    checked={row.getIsSelected()}
+                    onCheckedChange={(value) => row.toggleSelected(!!value)}
+                    aria-label="Select row"
+                />
+            ),
+            enableSorting: false,
+            enableHiding: false,
+        },
+        { accessorFn: row => row.pulau?.nama ?? '-', header: 'Pulau' },
+        { accessorFn: row => row.jenis_data?.nama ?? '-', header: 'Jenis Data' },
+        { accessorKey: 'tahun', header: 'Tahun' },
+        {
+            accessorKey: 'dokumen_nama',
+            header: 'Nama Dokumen',
+            cell: ({ row }) => <DownloadDialog nama={row.original?.dokumen_nama} path={row.original?.dokumen_path} />
+        },
+        {
+            accessorKey: "status",
+            header: "Status",
+            cell: ({ row }) => <StatusColumn status={row.original?.status} />
+        },
+        {
+            accessorKey: 'updated_at',
+            header: 'Tanggal Upload',
+            cell: ({ row }) => {
+                if (!row.original.updated_at) return '-'
+                const date = new Date(row.original.updated_at)
+                return date.toLocaleDateString('id-ID', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric',
+                })
+            },
+        },
+        {
+            id: 'actions',
+            cell: ({ row }) => {
+                const [showUpdate, setShowUpdate] = useState(false)
+                const [showDelete, setShowDelete] = useState(false)
 
-      return (
-        <>
-          <UpdateDataAirSheet
-            open={showUpdate}
-            onOpenChange={setShowUpdate}
-            data={row.original}
-          />
-          <DeleteDialog
-            open={showDelete}
-            onOpenChange={setShowDelete}
-            data={row.original.id}
-            url="/data-air"
-            label={row.original.dokumen_nama || 'Data Air'}
-            onSuccess={() => row.toggleSelected(false)}
-            showTrigger={false}
-          />
-          <Button variant="ghost" onClick={() => { setShowUpdate(true) }}>
-            <MoreHorizontal />
-          </Button>
-        </>
-      )
-    },
-  },
-]
+                return (
+                    <>
+                        <UpdateDataAirSheet
+                            open={showUpdate}
+                            onOpenChange={setShowUpdate}
+                            pulauOptions={pulauOptions}
+                            jenisDataOptions={jenisDataOptions}
+                            statusOptions={statusOptions}
+                            data={row.original}
+                        />
+                        <DeleteDialog
+                            open={showDelete}
+                            onOpenChange={setShowDelete}
+                            data={row.original.id}
+                            url="/data-air"
+                            label={row.original.dokumen_nama || 'Data Air'}
+                            onSuccess={() => row.toggleSelected(false)}
+                            showTrigger={false}
+                        />
+                        <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                                <Button variant="ghost" className="h-8 w-8 p-0">
+                                    <span className="sr-only">Open Menu</span>
+                                    <MoreHorizontal className="h-4 w-4" />
+                                </Button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent align="end">
+                                <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                                <DropdownMenuSeparator />
+                                <DropdownMenuItem onClick={() => { setShowUpdate(true) }}>
+                                    Edit
+                                </DropdownMenuItem>
+                                <DropdownMenuItem>
+                                    Delete
+                                </DropdownMenuItem>
+                            </DropdownMenuContent>
+                        </DropdownMenu>
+                    </>
+                )
+            },
+        },
+    ]
+    return cols
+}
