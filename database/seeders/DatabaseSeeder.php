@@ -18,7 +18,8 @@ class DatabaseSeeder extends Seeder
             MstPulauSeeder::class,
             JenisDataSeeder::class,
             KategoriDataSeeder::class,
-            StatusSeeder::class
+            StatusSeeder::class,
+            DataAnggaranSeeder::class
         ]);
     }
 }
