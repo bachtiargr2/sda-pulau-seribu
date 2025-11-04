@@ -36,7 +36,7 @@ export const columns = (pulauOptions: any, jenisDataOptions:any, statusOptions:a
     { accessorKey: 'tahun', header: 'Tahun' },
     {
         accessorKey: 'dokumen_nama',
-        header: 'Dokumen',
+        header: 'Nama Dokumen',
         cell: ({ row }) => <DownloadDialog nama={row.original?.dokumen_nama} path={row.original?.dokumen_path} />
     },
     {
@@ -44,19 +44,19 @@ export const columns = (pulauOptions: any, jenisDataOptions:any, statusOptions:a
         header: "Status",
         cell: ({ row }) => <StatusColumn status={row.original?.status} />
     },
-    {
-        accessorKey: 'created_at',
-        header: 'Tanggal Upload',
-        cell: ({ row }) => {
-            if (!row.original.created_at) return '-'
-            const date = new Date(row.original.created_at)
-            return date.toLocaleDateString('id-ID', {
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric',
-            })
-        },
-    },
+    // {
+    //     accessorKey: 'created_at',
+    //     header: 'Tanggal Upload',
+    //     cell: ({ row }) => {
+    //         if (!row.original.created_at) return '-'
+    //         const date = new Date(row.original.created_at)
+    //         return date.toLocaleDateString('id-ID', {
+    //             year: 'numeric',
+    //             month: 'long',
+    //             day: 'numeric',
+    //         })
+    //     },
+    // },
     {
         id: 'actions',
         cell: ({ row }) => {

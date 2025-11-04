@@ -24,13 +24,13 @@ export function CreateDataAirDialog({ pulauOptions, jenisDataOptions, statusOpti
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button variant="outline" size="sm">
-          <PlusIcon className="mr-2 h-4 w-4" /> Add Data Air
+          <PlusIcon className="mr-2 h-4 w-4" /> Add Data Air Bersih
         </Button>
       </DialogTrigger>
 
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Create Data Air</DialogTitle>
+          <DialogTitle>Create Data Air Bersih</DialogTitle>
           <DialogDescription>
             Lengkapi data berikut untuk menambahkan data anggaran air baru.
           </DialogDescription>

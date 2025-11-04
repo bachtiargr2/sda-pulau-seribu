@@ -9,7 +9,7 @@ import { useMemo } from 'react'
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
-        title: 'Data Air',
+        title: 'Data Air Bersih',
         href: dataAirRoutes.index().url,
     },
 ]
@@ -31,11 +31,11 @@ export default function DataAirPage() {
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title="Data Air" />
+            <Head title="Data Air Bersih" />
 
             <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
                 <DataTable
-                    title="Data Air"
+                    title="Data Air Bersih"
                     desc="Data anggaran khusus kategori Air"
                     columns={tableColumns}
                     data={safeData}

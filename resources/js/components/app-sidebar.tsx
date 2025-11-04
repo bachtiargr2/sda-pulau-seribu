@@ -60,10 +60,6 @@ const mainNavItems: NavItem[] = [
                 title: 'Jenis Data',
                 href: jenisData.index(),
             },
-            {
-                title: 'Unit Kerja',
-                href: unitKerja.index(),
-            },
         ]
     },
     {

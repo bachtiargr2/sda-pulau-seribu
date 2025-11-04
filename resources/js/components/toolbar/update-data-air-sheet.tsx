@@ -25,7 +25,7 @@ export function UpdateDataAirSheet({ data,
         <Sheet {...props}>
             <SheetContent className="flex flex-col gap-6 sm:max-w-md">
                 <SheetHeader className="text-left">
-                    <SheetTitle>Update Jenis Data</SheetTitle>
+                    <SheetTitle>Update Data Air Bersih</SheetTitle>
                     <SheetDescription>Perbarui data jenis data dan simpan perubahan.</SheetDescription>
                 </SheetHeader>
 

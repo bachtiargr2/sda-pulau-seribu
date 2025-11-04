@@ -22,7 +22,9 @@ export function DownloadDialog({ nama, path }: any) {
 
     const handleDownload = () => {
         startTransition(() => {
-            window.location.href = `/download/${path}/${nama}`;
+            const url = `/storage/${path}`;
+            window.open(url, '_blank')
+            // window.location.href = `/download/${path}/${nama}`;
             setOpen(false)
         })
     }
@@ -34,7 +36,7 @@ export function DownloadDialog({ nama, path }: any) {
             <DialogTrigger asChild>
               <Button variant="ghost" size="sm">
                 <Download className="mr-2 size-4" aria-hidden="true" />
-                <span className="truncate max-w-[100px]">{nama.length > 10 ? nama.slice(0, 10) + "..." : nama}</span>
+                <span className="font-normal whitespace-normal text-left break-words">{nama}</span>
               </Button>
             </DialogTrigger>
           </TooltipTrigger>

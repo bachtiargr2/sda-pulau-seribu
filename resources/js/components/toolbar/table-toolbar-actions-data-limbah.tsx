@@ -22,10 +22,6 @@ export function TableToolbarActionsDataLimbah({
         jenisDataOptions={jenisDataOptions}
         statusOptions={statusOptions}
       />
-      <Button variant="outline" size="sm">
-        <DownloadIcon className="mr-2 size-4" aria-hidden="true" />
-        Export
-      </Button>
     </div>
   )
 }

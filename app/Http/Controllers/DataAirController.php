@@ -54,7 +54,7 @@ class DataAirController extends Controller
 
         DataAnggaran::create($validated);
 
-        return redirect()->route('kelola-data.air.index')->with('success', 'Data air berhasil ditambahkan');
+        return redirect()->route('kelola-data.air.index')->with('success', 'Data air bersih berhasil ditambahkan');
     }
 
     public function update(Request $request, DataAnggaran $dataAir)
@@ -92,6 +92,6 @@ class DataAirController extends Controller
         $model = DataAnggaran::findOrFail($id);
         $model->delete();
 
-        return back()->with('success', 'Data air berhasil dihapus');
+        return back()->with('success', 'Data air bersih berhasil dihapus');
     }
 }
