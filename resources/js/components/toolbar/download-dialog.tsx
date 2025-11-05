@@ -22,9 +22,8 @@ export function DownloadDialog({ nama, path }: any) {
 
     const handleDownload = () => {
         startTransition(() => {
-            const url = `/storage/${path}`;
-            window.open(url, '_blank')
-            // window.location.href = `/download/${path}/${nama}`;
+            const url = `/download/${path}/${nama}`;
+            window.location.href = url;
             setOpen(false)
         })
     }
@@ -40,7 +39,7 @@ export function DownloadDialog({ nama, path }: any) {
               </Button>
             </DialogTrigger>
           </TooltipTrigger>
-          <TooltipContent>{nama}</TooltipContent>
+          <TooltipContent>Klik untuk Mengunduh</TooltipContent>
         </Tooltip>
       </TooltipProvider>
 

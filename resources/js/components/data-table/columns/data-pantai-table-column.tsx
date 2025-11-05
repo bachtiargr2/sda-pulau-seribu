@@ -95,7 +95,7 @@ export const columns = (pulauOptions: any, jenisDataOptions:any, statusOptions:a
                             <DropdownMenuItem onClick={() => { setShowUpdateTaskSheet(true) }}>
                                 Edit
                             </DropdownMenuItem>
-                            <DropdownMenuItem>
+                            <DropdownMenuItem onClick={() => { setShowDelete(true) }}>
                                 Delete
                             </DropdownMenuItem>
                         </DropdownMenuContent>
