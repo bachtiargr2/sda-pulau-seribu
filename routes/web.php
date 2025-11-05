@@ -13,9 +13,10 @@ use Inertia\Inertia;
 use Laravel\Fortify\Features;
 
 Route::get('/', function () {
-    return Inertia::render('welcome', [
-        'canRegister' => Features::enabled(Features::registration()),
-    ]);
+    // return Inertia::render('welcome', [
+    //     'canRegister' => Features::enabled(Features::registration()),
+    // ]);
+    return redirect()->route('login');
 })->name('home');
 
 Route::middleware(['auth', 'verified'])->group(function () {
@@ -31,8 +32,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::get('/master-data/jenis-data', [JenisDataController::class, 'index'])->name('jenis-data.index');
     Route::post('/master-data/jenis-data', [JenisDataController::class, 'store'])->name('jenis-data.store');
-    Route::put('/master-data/jenis-data/{pulau}', [JenisDataController::class, 'update'])->name('jenis-data.update');
-    Route::delete('/master-data/jenis-data/{pulau?}', [JenisDataController::class, 'destroy'])->name('jenis-data.delete');
+    Route::put('/master-data/jenis-data/{jenisData}', [JenisDataController::class, 'update'])->name('jenis-data.update');
+    Route::delete('/master-data/jenis-data/{jenisData?}', [JenisDataController::class, 'destroy'])->name('jenis-data.delete');
 
     Route::get('/master-data/unit-kerja', [UnitKerjaController::class, 'index'])->name('unit-kerja.index');
     Route::post('/master-data/unit-kerja', [UnitKerjaController::class, 'store'])->name('unit-kerja.store');
@@ -42,7 +43,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/kelola-data/pantai', [DataPantaiController::class, 'index'])->name('kelola-data.pantai.index');
     Route::post('/kelola-data/pantai', [DataPantaiController::class, 'store'])->name('kelola-data.pantai.store');
     Route::put('/kelola-data/pantai/{dataPantai}', [DataPantaiController::class, 'update'])->name('kelola-data.pantai.update');
-    Route::delete('/kelola-data/pantai/{dataPantai?}', [DataPantaiController::class, 'destroy'])->name('kelola-data.pantai.delete');
+    Route::delete('/kelola-data/pantai/{pantai?}', [DataPantaiController::class, 'destroy'])->name('kelola-data.pantai.delete');
 
     Route::get('/kelola-data/limbah', [DataLimbahController::class, 'index'])->name('kelola-data.limbah.index');
     Route::post('/kelola-data/limbah', [DataLimbahController::class, 'store'])->name('kelola-data.limbah.store');

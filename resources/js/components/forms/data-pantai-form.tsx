@@ -42,7 +42,7 @@ export default function DataPantaiForm({
       dokumen_url: initialData?.dokumen_url ?? "",
       dokumen: undefined,   // ← file object
       status: initialData?.status ?? "",
-      _method: "PUT",
+      _method: method === "put" ? "PUT" : "POST",
   })
 
   const handleChange = (field: keyof typeof data, value: any) => {

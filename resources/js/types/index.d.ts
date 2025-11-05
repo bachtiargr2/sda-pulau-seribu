@@ -90,7 +90,7 @@ export type DataAnggaran = {
     nama: string
   }
   id_jenis_data: number
-  jenisData: {
+  jenis_data: {
     id: number
     nama: string
   }

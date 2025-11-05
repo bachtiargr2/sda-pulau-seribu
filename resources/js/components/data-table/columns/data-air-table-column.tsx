@@ -4,7 +4,7 @@ import { Checkbox } from '@/components/ui/checkbox'
 import { Button } from '@/components/ui/button'
 import { MoreHorizontal } from 'lucide-react'
 import { UpdateDataAirSheet } from '@/components/toolbar/update-data-air-sheet'
-import { DeleteDialog } from '@/components/toolbar/delete-data-air-dialog'
+import { DeleteDialog } from '@/components/toolbar/delete-dialog'
 import { useState } from 'react'
 import StatusColumn from '@/components/status-column'
 import { DownloadDialog } from '@/components/toolbar/download-dialog'
@@ -37,7 +37,11 @@ export const columns = (pulauOptions: any, jenisDataOptions: any, statusOptions:
         {
             accessorKey: 'dokumen_nama',
             header: 'Nama Dokumen',
-            cell: ({ row }) => <DownloadDialog nama={row.original?.dokumen_nama} path={row.original?.dokumen_path} />
+            cell: ({ row }) => (
+                <div className="max-w-52 whitespace-normal break-words">
+                    {row.getValue('dokumen_nama')}
+                </div>
+            )
         },
         {
             accessorKey: "status",
@@ -60,11 +64,18 @@ export const columns = (pulauOptions: any, jenisDataOptions: any, statusOptions:
         {
             id: 'actions',
             cell: ({ row }) => {
+                const [showDownload, setShowDownload] = useState(false)
                 const [showUpdate, setShowUpdate] = useState(false)
                 const [showDelete, setShowDelete] = useState(false)
 
                 return (
                     <>
+                        <DownloadDialog
+                            open={showDownload}
+                            onOpenChange={setShowDownload}
+                            nama={row.original?.dokumen_nama}
+                            path={row.original?.dokumen_path}
+                        />
                         <UpdateDataAirSheet
                             open={showUpdate}
                             onOpenChange={setShowUpdate}
@@ -76,8 +87,8 @@ export const columns = (pulauOptions: any, jenisDataOptions: any, statusOptions:
                         <DeleteDialog
                             open={showDelete}
                             onOpenChange={setShowDelete}
-                            data={row.original.id}
-                            url="/data-air"
+                            items={row.original.id}
+                            url="/kelola-data/air"
                             label={row.original.dokumen_nama || 'Data Air'}
                             onSuccess={() => row.toggleSelected(false)}
                             showTrigger={false}
@@ -92,6 +103,9 @@ export const columns = (pulauOptions: any, jenisDataOptions: any, statusOptions:
                             <DropdownMenuContent align="end">
                                 <DropdownMenuLabel>Actions</DropdownMenuLabel>
                                 <DropdownMenuSeparator />
+                                <DropdownMenuItem onClick={() => { setShowDownload(true) }}>
+                                    Download
+                                </DropdownMenuItem>
                                 <DropdownMenuItem onClick={() => { setShowUpdate(true) }}>
                                     Edit
                                 </DropdownMenuItem>

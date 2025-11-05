@@ -16,33 +16,18 @@ import pulau from "@/routes/pulau"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "../ui/tooltip"
 import { router } from "@inertiajs/react"
 
-export function DownloadDialog({ nama, path }: any) {
+export function DownloadDialog({ nama, path, ...props }: any) {
     const [isPending, startTransition] = useTransition()
-    const [open, setOpen] = useState(false)
 
     const handleDownload = () => {
         startTransition(() => {
             const url = `/download/${path}/${nama}`;
             window.location.href = url;
-            setOpen(false)
+            props.onOpenChange?.(false)
         })
     }
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
-        <TooltipProvider>
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <DialogTrigger asChild>
-              <Button variant="ghost" size="sm">
-                <Download className="mr-2 size-4" aria-hidden="true" />
-                <span className="font-normal whitespace-normal text-left break-words">{nama}</span>
-              </Button>
-            </DialogTrigger>
-          </TooltipTrigger>
-          <TooltipContent>Klik untuk Mengunduh</TooltipContent>
-        </Tooltip>
-      </TooltipProvider>
-
+    <Dialog {...props}>
       <DialogContent>
         <DialogHeader>
             <DialogTitle>Konfirmasi Unduhan</DialogTitle>
@@ -65,7 +50,7 @@ export function DownloadDialog({ nama, path }: any) {
                 Download
             </Button>
         </DialogFooter>
-      </DialogContent>
+    </DialogContent>
     </Dialog>
   )
 }

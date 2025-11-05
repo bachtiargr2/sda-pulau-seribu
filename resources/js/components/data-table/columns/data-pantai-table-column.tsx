@@ -4,7 +4,7 @@ import { Checkbox } from '@/components/ui/checkbox'
 import { Button } from '@/components/ui/button'
 import { MoreHorizontal } from 'lucide-react'
 import { UpdateDataPantaiSheet } from '@/components/toolbar/update-data-pantai-sheet'
-import { DeleteDialog } from '@/components/toolbar/delete-data-pantai-dialog'
+import { DeleteDialog } from '@/components/toolbar/delete-dialog'
 import { useState } from 'react'
 import StatusColumn from '@/components/status-column'
 import { DownloadDialog } from '@/components/toolbar/download-dialog'
@@ -37,7 +37,11 @@ export const columns = (pulauOptions: any, jenisDataOptions:any, statusOptions:a
     {
         accessorKey: 'dokumen_nama',
         header: 'Nama Dokumen',
-        cell: ({ row }) => <DownloadDialog nama={row.original?.dokumen_nama} path={row.original?.dokumen_path} />
+        cell: ({ row }) => (
+            <div className="max-w-52 whitespace-normal break-words">
+                {row.getValue('dokumen_nama')}
+            </div>
+        )
     },
     {
         accessorKey: "status",
@@ -60,14 +64,21 @@ export const columns = (pulauOptions: any, jenisDataOptions:any, statusOptions:a
     {
         id: 'actions',
         cell: ({ row }) => {
-            const [showUpdateTaskSheet, setShowUpdateTaskSheet] = useState(false)
+            const [showDownload, setShowDownload] = useState(false)
+            const [showUpdateSheet, setShowUpdateSheet] = useState(false)
             const [showDelete, setShowDelete] = useState(false)
 
             return (
                 <>
+                    <DownloadDialog
+                        open={showDownload}
+                        onOpenChange={setShowDownload}
+                        nama={row.original?.dokumen_nama}
+                        path={row.original?.dokumen_path}
+                    />
                     <UpdateDataPantaiSheet
-                        open={showUpdateTaskSheet}
-                        onOpenChange={setShowUpdateTaskSheet}
+                        open={showUpdateSheet}
+                        onOpenChange={setShowUpdateSheet}
                         pulauOptions={pulauOptions}
                         jenisDataOptions={jenisDataOptions}
                         statusOptions={statusOptions}
@@ -76,8 +87,8 @@ export const columns = (pulauOptions: any, jenisDataOptions:any, statusOptions:a
                     <DeleteDialog
                         open={showDelete}
                         onOpenChange={setShowDelete}
-                        data={row.original.id}
-                        url="/data-pantai"
+                        items={row.original.id}
+                        url="/kelola-data/pantai"
                         label={row.original.dokumen_nama || 'Data Pantai'}
                         onSuccess={() => row.toggleSelected(false)}
                         showTrigger={false}
@@ -92,7 +103,10 @@ export const columns = (pulauOptions: any, jenisDataOptions:any, statusOptions:a
                         <DropdownMenuContent align="end">
                             <DropdownMenuLabel>Actions</DropdownMenuLabel>
                             <DropdownMenuSeparator />
-                            <DropdownMenuItem onClick={() => { setShowUpdateTaskSheet(true) }}>
+                            <DropdownMenuItem onClick={() => { setShowDownload(true) }}>
+                                Download
+                            </DropdownMenuItem>
+                            <DropdownMenuItem onClick={() => { setShowUpdateSheet(true) }}>
                                 Edit
                             </DropdownMenuItem>
                             <DropdownMenuItem onClick={() => { setShowDelete(true) }}>
