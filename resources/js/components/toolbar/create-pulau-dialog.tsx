@@ -18,9 +18,9 @@ export function CreatePulauDialog() {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger asChild>
-            <Button variant="default" size="sm">
+            <Button size="sm">
             <PlusIcon className="mr-2 size-4" aria-hidden="true" />
-                Add Pulau
+                Tambah Data Pulau
             </Button>
         </DialogTrigger>
 

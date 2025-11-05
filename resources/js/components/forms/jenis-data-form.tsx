@@ -9,6 +9,7 @@ import { SheetClose, SheetFooter } from "@/components/ui/sheet"
 import InputError from "../input-error"
 import { createData } from "@/utils/create"
 import { updateData } from "@/utils/update"
+import { cn } from "@/lib/utils"
 
 type JenisDataFormProps = {
   initialData?: { id?: number; nama?: string; deskripsi?: string }
@@ -61,7 +62,7 @@ export default function JenisDataForm({
 
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-      <div className="flex flex-col gap-4">
+      <div className={cn("flex flex-col gap-4", method === "put" && "px-4")}>
         <div>
           <Label className={errors.nama && "text-red-500"}>
             Nama Jenis Data<span className="text-red-500">*</span>

@@ -17,8 +17,8 @@ export function CreateJenisDataDialog() {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant="outline" size="sm">
-          <PlusIcon className="mr-2 size-4" /> Add Jenis Data
+        <Button size="sm">
+          <PlusIcon className="mr-2 size-4" /> Tambah Jenis Data
         </Button>
       </DialogTrigger>
 

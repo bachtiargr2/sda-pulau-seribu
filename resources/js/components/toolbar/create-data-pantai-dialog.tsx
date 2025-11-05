@@ -23,8 +23,8 @@ export function CreateDataPantaiDialog({ pulauOptions, jenisDataOptions, statusO
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant="outline" size="sm">
-          <PlusIcon className="mr-2 h-4 w-4" /> Add Data Pantai
+        <Button size="sm">
+          <PlusIcon className="mr-2 h-4 w-4" /> Tambah Data Pantai
         </Button>
       </DialogTrigger>
 
