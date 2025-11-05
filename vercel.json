@@ -1,0 +1,33 @@
+{
+    "version": 2,
+    "framework": null,
+    "functions": {
+        "api/index.php": { "runtime": "vercel-php@0.7.4" }
+    },
+    "routes": [
+        { "src": "/build/(.*)", "dest": "/public/build/" },
+        { "src": "/(.*)", "dest": "/api/index.php" }
+    ],
+    "buildCommand": "echo 'Skipping Vite build (already built locally)'",
+    "env": {
+        "APP_ENV": "production",
+        "APP_DEBUG": "true",
+        "APP_URL": "",
+        "APP_KEY": "base64:dEHdqk7dQ6fx2IUGH7+zgMrs++GTFmRx745jeQW1cSA=",
+        "APP_CONFIG_CACHE": "/tmp/config.php",
+        "APP_EVENTS_CACHE": "/tmp/events.php",
+        "APP_PACKAGES_CACHE": "/tmp/packages.php",
+        "APP_ROUTES_CACHE": "/tmp/routes.php",
+        "APP_SERVICES_CACHE": "/tmp/services.php",
+        "VIEW_COMPILED_PATH": "/tmp",
+        "CACHE_DRIVER": "array",
+        "LOG_CHANNEL": "stderr",
+        "SESSION_DRIVER": "cookie",
+        "DB_CONNECTION":"mysql",
+        "DB_HOST":"rkfhz8.h.filess.io",
+        "DB_PORT":"3307",
+        "DB_DATABASE":"sda_pulau_seribu_broadcover",
+        "DB_USERNAME":"sda_pulau_seribu_broadcover",
+        "DB_PASSWORD":"4385c1d68ba57acb8aae4ee3cb4cc5422a4887e8"
+    }
+}
